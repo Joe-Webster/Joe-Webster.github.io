@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=2cm]{geometry}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{linkcolor=blue, citecolor=blue}
+\usepackage{amsmath, enumitem, amssymb, amsthm, bm, mathrsfs, braket, graphicx, tikz, comment, mathtools, cleveref}
+\linespread{1.3}
+
+\newcommand\R{\mathbb{R}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\N{\mathbb{N}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\C{\mathbb{C}}
+\newcommand\T{\mathbb{T}}
+\newcommand\E{\mathbb{E}}
+\newcommand\F{\mathbb{F}}
+\renewcommand\P{\mathbb{P}}
+\newcommand\spl{{\bm{\pitchfork}}}
+\newcommand\ptn{{\pitchfork}}
+\DeclareMathOperator\re{Re}
+\DeclareMathOperator\ord{ord}
+\DeclareMathOperator\Frac{Frac}
+\DeclareMathOperator\charr{char}
+\DeclareMathOperator\ac{ac}
+\DeclareMathOperator\rank{rank}
+\DeclareMathOperator\intr{int}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Sym{Sym}
+\DeclareMathOperator\Aut{Aut}
+\DeclareMathOperator\Orb{Orb}
+\DeclareMathOperator\Stab{Stab}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
+
+\numberwithin{equation}{subsection}
+
+\title{The Fourier series of Bernoulli polynomials}
+\author{Joe Webster}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+The $m$th \emph{Bernoulli number} is defined to be the coefficient of $z^m/m!$ in the Taylor expansion for $\frac{z}{e^z-1}$. That is, $$\frac{z}{e^z-1}=\sum_{m=0}^\infty\frac{B_m}{m!}z^m,$$ which converges absolutely when $|z|<2\pi$. It is straightforward to verify that the even and odd parts of $\frac{z}{e^z-1}$ are respectively $\frac{z}{2}\cdot\frac{e^z+1}{e^z-1}$ and $-\frac{z}{2}$, and therefore $$\frac{z}{2}\cdot\frac{e^z+1}{e^z-1}=\sum_{k=0}^\infty\frac{B_{2k}}{(2k)!}z^{2k}\qquad\text{and}\qquad-\frac{z}{2}=\sum_{k=0}^\infty\frac{B_{2k+1}}{(2k+1)!}z^{2k+1}$$ when $|z|<2\pi$. The righthand equation shows that $B_1=-\frac{1}{2}$ and $B_{2k+1}=0$ for all $k\geq 1$, and evaluating the lefthand equation at $z=2\pi iw$ shows that
+\begin{equation}\label{cot}
+\pi w\cot(\pi w)=\sum_{k=0}^\infty\frac{(2\pi)^{2k}(-1)^kB_{2k}}{(2k)!}w^{2k}\qquad\text{when}\quad |w|<1.
+\end{equation}
+
+A formula for $\zeta(2\ell)=\sum_{n=1}^\infty\frac{1}{n^{2\ell}}$ can be found for any positive integer $\ell$ by expanding $\pi w\cot(\pi w)$ as a sum over its poles and recombining it into a power series in $w$. The main goal of this note is to establish the same formula (and a little more) using Fourier series instead. To this end, we define a sequence of 1-periodic functions $P_m:\R\to\R$ via $P_1(x):=\{x\}-\frac{1}{2}$ (where $\{x\}=x-\lfloor x\rfloor$ is the fractional part of $x$) and $$P_m(x)=B_m+m\int_0^xP_{m-1}(t)\,dt\qquad\text{for all }m\geq 2.$$ Obviously $P_m(0)=B_m$ for all $m\geq 1$, and it is a good exercise to verify that $P_m$ is indeed 1-periodic, smooth on $\R\setminus\Z$ for $m\geq 1$, and continuous on $\R$ if $m\geq 2$. In fact, for every $m\geq 1$, $P_m(x)$ is a polynomial in $\{x\}$ (but not in $x$), and is thus called the $m$th \emph{periodic Bernoulli polynomial}. 
+
+\subsection*{The Basel Problem}
+The Fourier series $\sum_{n=-\infty}^\infty c_ne^{2\pi inx}$ for the 1-periodic function $P_2(x)=\{x\}^2-\{x\}+\frac{1}{6}$ is given by $c_0=\int_0^1P_2(x)\,dx=0$ and $$c_n=\int_0^1P_2(x)e^{-2\pi inx}\,dx=\frac{1}{2\pi^2n^2}=-2\cdot\frac{1}{(2\pi in)^2}\qquad\text{for all $n\neq1$}.$$
+Since $P_2$ is continuous and piecewise smooth, a theorem of Dirichlet implies that the Fourier series converges uniformly to $P_2$ on $\R$. In particular,
+\begin{equation}\label{m=2}
+P_2(x)=-2\sum_{n=1}^\infty\frac{e^{2\pi inx}+e^{-2\pi inx}}{(2\pi in)^2}\qquad\text{for all $x\in\R$}.
+\end{equation}
+The solution to the Basel problem (i.e., $\zeta(2)=\sum_{n=1}^\infty\frac{1}{n^2}=\frac{\pi^2}{6}$) follows immediately by evaluating both sides of \eqref{m=2} at $x=0$.
+
+\subsection*{Formulas for $P_m(x)$ and $\zeta(4),\zeta(6),\zeta(8)$...}
+The recursive definition of $P_m$, the operator $I_{[0,x]}$ defined by $I_{[0,x]}(f)=\int_0^xf(t)\,dt$, and a straightforward induction argument give the formula  
+\begin{equation}\label{P_m}
+P_m(x)=\sum_{k=0}^{m-3}\binom{m}{k}B_{m-k}x^k+\frac{m!}{2!}\cdot I_{[0,x]}^{m-2}(P_2)\qquad\text{for all }m\geq2,
+\end{equation}
+where $I_{[0,x]}^{m-2}$ stands for $(m-2)$th iterate of the operator $I_{[0,x]}$. It can also be applied to the uniformly convergent sum for $P_2$ in \eqref{m=2} term-by-term as many times as we like:
+
+\begin{align*}
+I_{[0,x]}^{3-2}(P_2)&=-2\sum_{n=1}^\infty\frac{e^{2\pi inx}-e^{-2\pi inx}}{(2\pi in)^3}\\
+I_{[0,x]}^{4-2}(P_2)&=-2\sum_{n=1}^\infty\frac{e^{2\pi inx}+e^{-2\pi inx}}{(2\pi in)^4}+4\cdot\frac{\zeta(4)}{(2\pi i)^4}\\
+I_{[0,x]}^{5-2}(P_2)&=-2\sum_{n=1}^\infty\frac{e^{2\pi inx}-e^{-2\pi inx}}{(2\pi in)^5}+4\cdot\frac{\zeta(4)}{(2\pi i)^4}x\\
+I_{[0,x]}^{6-2}(P_2)&=-2\sum_{n=1}^\infty\frac{e^{2\pi inx}+e^{-2\pi inx}}{(2\pi in)^6}+4\left(\frac{\zeta(4)}{(2\pi i)^4}\frac{x^2}{2!}+\frac{\zeta(6)}{(2\pi i)^6}\right)\\
+\vdots
+\end{align*}
+
+By keeping track of the two sums that emerge (or more carefully, by induction), we conclude that
+$$\frac{m!}{2!}\cdot I_{[0,x]}^{m-2}(P_2)=\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)x^{m-2\ell}-\sum_{n=1}^\infty\frac{m!}{(2\pi in)^m}\left(e^{2\pi inx}+(-1)^me^{-2\pi inx}\right)~.$$ On the other hand, we know that $B_{2\ell+1}=0$ for all $\ell\geq 1$, and thus $$\sum_{k=0}^{m-3}\binom{m}{k}B_{m-k}x^k=\sum_{k=3}^m\binom{m}{k}B_kx^{m-k}=\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}B_{2\ell}x^{m-2\ell}~,$$ so we can regroup \eqref{P_m} as 
+\begin{align*}
+P_m(x)&=\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}\left[B_{2\ell}+\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)\right]x^{m-2\ell}-\sum_{n=1}^\infty\frac{m!}{(2\pi in)^m}\left(e^{2\pi inx}+(-1)^me^{-2\pi inx}\right)\\
+&=\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}\left[B_{2\ell}+\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)\right]x^{m-2\ell}-\sum_{n=1}^\infty\frac{m!}{(2\pi n)^m}\left(e^{2\pi inx-\frac{\pi i}{2}m}+e^{-(2\pi inx-\frac{\pi i}{2}m)}\right)\\
+&=\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}\left[B_{2\ell}+\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)\right]x^{m-2\ell}-\sum_{n=1}^\infty\frac{2\cdot m!}{(2\pi n)^m}\cos\left(2\pi nx-\frac{\pi}{2}m\right).
+\end{align*}
+If $m$ is odd and greater than $4$, we can see that the polynomial $\sum_{\ell=2}^{\lfloor m/2\rfloor}\binom{m}{2\ell}\left[B_{2\ell}+\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)\right]x^{m-2\ell}$ has positive degree and no constant term, but $P_m(x)$ is bounded on $\R$ (because it is continuous and periodic) and the rightmost sum of cosines is also bounded on $\R$ (because it is uniformly convergent), so it must be the case that $B_{2\ell}+\frac{2(2\ell)!}{(2\pi i)^{2\ell}}\zeta(2\ell)=0$ for all $\ell\in\{2,3,\dots,\lfloor m/2\rfloor\}$. Since $m$ can be arbitrarily large and since we already solved the $\ell=1$ case (the Basel problem), we conclude with the following theorem:
+
+\begin{theorem}\
+\begin{itemize}
+\item[(a)] For any integer $\ell\geq 1$, the sum $\zeta(2\ell)=\sum_{n=1}^\infty\frac{1}{n^{2\ell}}$ is given by $$\zeta(2\ell)=-\frac{(2\pi i)^{2\ell}B_{2\ell}}{2(2\ell)!}=\frac{(2\pi)^{2\ell}|B_{2\ell}|}{2(2\ell)!}.$$
+\item[(b)] For $m\geq 2$, the periodic Bernoulli polynomial can be expressed as an absolutely uniformly convergent series:
+\begin{align*}
+P_m(x)&=-\frac{2\cdot m!}{(2\pi)^m}\sum_{n=1}^\infty\frac{1}{n^m}\cos\left(2\pi nx-\frac{\pi}{2}m\right).
+\end{align*}
+\end{itemize}
+\end{theorem}
+(To play with some visual examples, check out \href{https://www.desmos.com/calculator/vlyzrs79lv}{this Desmos example}.)
+
+\end{document}
